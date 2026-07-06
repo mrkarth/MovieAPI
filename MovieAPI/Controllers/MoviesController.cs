@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Dto;
+using MovieAPI.Interfaces;
 using MovieAPI.Model;
 using System.Reflection;
 
@@ -9,27 +10,19 @@ namespace MovieAPI.Controllers
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult CreateMovie([FromBody] CreateMovieDto Dto)
+        private readonly IMovieService _movieService;
+
+        public MoviesController(IMovieService movieService)
         {
-            Movie movie = new Movie
-            {
-                Id = 1,
-                Title = Dto.Title,
-                Year = Dto.Year,
-                CreatedDate = DateTime.Now
-            };
+            _movieService = movieService;
+        }
 
+        [HttpGet]
+        public IActionResult GetAllMovies()
+        {
+            var movies = _movieService.GetAllMovies();
 
-            MovieResponseDto response = new MovieResponseDto
-            {
-                Id = movie.Id,
-                Title = movie.Title,
-                Year = movie.Year
-            };
-
-
-            return Created($"/api/Movies/{movie.Id}", response);
+            return Ok(movies);
         }
     }
 }
