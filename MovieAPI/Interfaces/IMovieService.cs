@@ -1,7 +1,9 @@
-﻿namespace MovieAPI.Interfaces
+﻿using MovieAPI.Dto;
+
+namespace MovieAPI.Interfaces
 {
     public interface IMovieService
     {
-        List<string> GetAllMovies();
+        MovieResponseDto CreateMovie(MovieResponseDto dto);
     }
 }
