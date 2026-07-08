@@ -6,10 +6,11 @@ namespace MovieAPI.Interfaces
     {
         Movie Add(Movie movie);
 
-        List<Movie> GetAll();
+        //List<Movie> GetAll();
 
         Movie GetById(int id);
 
-        void Delete(int id);
+        //void Delete(int id);
+        public void Delete(int id);
     }
 }

@@ -19,11 +19,22 @@ namespace MovieAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMovie(MovieResponseDto dto)
+        public IActionResult CreateMovie(CreateMovieDto dto)
         {
-            var movie = _movieService.CreateMovie(dto);
+            var result = _movieService.CreateMovie(dto);
 
-            return Created($"/api/Movies/{movie.Id}", movie);
+            return Ok(result);
+
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteMovie(int id)
+        {
+            _movieService.DeleteMovieById(id);
+
+            return NoContent();
         }
     }
 }
+
+

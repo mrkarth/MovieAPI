@@ -1,4 +1,5 @@
-﻿using MovieAPI.Dto;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieAPI.Dto;
 using MovieAPI.Interfaces;
 using MovieAPI.Model;
 
@@ -12,21 +13,20 @@ namespace MovieAPI.Services
         {
             _repository = repository;
         }
-        public MovieResponseDto CreateMovie(MovieResponseDto dto)
+        public MovieResponseDto CreateMovie(CreateMovieDto dto)
         {
-            if(dto.Year < 1900)
+            if (dto.Year < 1900)
             {
-                throw new Exception("Year must be greater than or equal to 1900");
+                throw new Exception("Year should be greater that 1900");
             }
 
             Movie movie = new Movie
             {
-                Id = 1,
                 Title = dto.Title,
                 Year = dto.Year
             };
 
-            _repository.Add(movie);
+            movie = _repository.Add(movie);
 
             return new MovieResponseDto
             {
@@ -35,6 +35,15 @@ namespace MovieAPI.Services
                 Year = movie.Year
             };
 
+        }
+        public void DeleteMovieById(int id)
+        {
+            var movie = _repository.GetById(id);
+            if(movie == null)
+            {
+                throw new Exception("Movie not found");
+            }
+            _repository.Delete(id);
         }
     }
 }

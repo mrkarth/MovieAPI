@@ -1,36 +1,37 @@
-﻿using MovieAPI.Interfaces;
+﻿using MovieAPI.Data;
+using MovieAPI.Interfaces;
 using MovieAPI.Model;
 
 namespace MovieAPI.Repositories
 {
     public class MovieRepository : IMovieRepository
     {
-        private static List<Movie> movies = new();
+        private readonly MovieDbContext _context;
 
+        public MovieRepository(MovieDbContext context)
+        {
+            _context = context;
+        }
         public Movie Add(Movie movie)
         {
-            movies.Add(movie);
-
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
             return movie;
         }
 
-        public List<Movie> GetAll()
+        public Movie GetById(int id)
         {
-            return movies;
-        }
-
-        public Movie GetById(int Id)
-        {
-            return movies.FirstOrDefault(x => x.Id == Id);
+            return _context.Movies.Find(id);
         }
 
         public void Delete(int id)
         {
-            var movie = GetById(id);
-
-            if (movie != null)
-                movies.Remove(movie);
+            var movie = _context.Movies.Find(id);
+            if(movie != null)
+            {
+                _context.Movies.Remove(movie);
+                _context.SaveChanges();
+            }
         }
-
     }
 }
