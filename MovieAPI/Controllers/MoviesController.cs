@@ -18,12 +18,19 @@ namespace MovieAPI.Controllers
             _movieService = movieService;
         }
 
-        [HttpPost]
-        public IActionResult CreateMovie(CreateMovieDto dto)
+        [HttpGet]
+        public async Task<IActionResult> GetAllMoviesAsync()
         {
-            var result = _movieService.CreateMovie(dto);
+            var movies = await _movieService.GetAllMoviesAsync();
+            return Ok(movies);
+        }
 
-            return Ok(result);
+        [HttpPost]
+        public async Task<IActionResult> CreateMovieAsync(CreateMovieDto dto)
+        {
+            var result = await _movieService.CreateMovieAsync(dto);
+
+            return Created();
 
         }
 

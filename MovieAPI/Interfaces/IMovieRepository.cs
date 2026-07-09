@@ -4,9 +4,9 @@ namespace MovieAPI.Interfaces
 {
     public interface IMovieRepository
     {
-        Movie Add(Movie movie);
+        Task<Movie> AddMovieAsync(Movie movie);
 
-        //List<Movie> GetAll();
+        Task<List<Movie>> GetAllMoviesAsync();
 
         Movie GetById(int id);
 

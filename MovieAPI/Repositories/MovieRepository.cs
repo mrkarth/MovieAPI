@@ -1,4 +1,5 @@
-﻿using MovieAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieAPI.Data;
 using MovieAPI.Interfaces;
 using MovieAPI.Model;
 
@@ -12,13 +13,17 @@ namespace MovieAPI.Repositories
         {
             _context = context;
         }
-        public Movie Add(Movie movie)
+        public async Task<Movie> AddMovieAsync(Movie movie)
         {
             _context.Movies.Add(movie);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return movie;
         }
 
+        public async Task<List<Movie>> GetAllMoviesAsync()
+        {
+            return await _context.Movies.ToListAsync();
+        }
         public Movie GetById(int id)
         {
             return _context.Movies.Find(id);
@@ -26,11 +31,11 @@ namespace MovieAPI.Repositories
 
         public void Delete(int id)
         {
-            var movie = _context.Movies.Find(id);
+            var movie =  _context.Movies.Find(id);
             if(movie != null)
             {
                 _context.Movies.Remove(movie);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
             }
         }
     }

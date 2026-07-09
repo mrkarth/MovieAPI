@@ -5,7 +5,9 @@ namespace MovieAPI.Interfaces
 {
     public interface IMovieService
     {
-        MovieResponseDto CreateMovie(CreateMovieDto dto);
+        Task<MovieResponseDto> CreateMovieAsync(CreateMovieDto dto);
+
+        Task<List<MovieResponseDto>> GetAllMoviesAsync();
 
         //Movie GetById(int id);
         public void DeleteMovieById(int id);

@@ -13,7 +13,19 @@ namespace MovieAPI.Services
         {
             _repository = repository;
         }
-        public MovieResponseDto CreateMovie(CreateMovieDto dto)
+
+        public async Task<List<MovieResponseDto>> GetAllMoviesAsync()
+        {
+            var movies = await _repository.GetAllMoviesAsync();
+            return movies.Select(m => new MovieResponseDto
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Year = m.Year
+            }
+                ).ToList();
+        }
+        public async Task<MovieResponseDto> CreateMovieAsync(CreateMovieDto dto)
         {
             if (dto.Year < 1900)
             {
@@ -26,7 +38,7 @@ namespace MovieAPI.Services
                 Year = dto.Year
             };
 
-            movie = _repository.Add(movie);
+            movie = await _repository.AddMovieAsync(movie);
 
             return new MovieResponseDto
             {
