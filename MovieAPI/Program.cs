@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MovieAPI.Data;
 using MovieAPI.Interfaces;
 using MovieAPI.Repositories;
@@ -13,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddDbContext<MovieDbContext>(options =>
 {
